@@ -1,5 +1,7 @@
 package com.example.upload_image;
 
+import static com.example.upload_image.R.id.imgReceived;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -21,18 +23,29 @@ import com.example.upload_image.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
     private final int CAMERA_REQ_CODE = 100;
-    ImageView imgCamera;
+    private final int GALLERY_REQ_CODE = 200;
+    ImageView imgReceived;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        imgCamera = findViewById(R.id.imgCamera);
+        imgReceived = findViewById(R.id.imgReceived);
         Button btnCamera = findViewById(R.id.btnCamera);
+        Button btnGallery = findViewById(R.id.btnGallery);
+
         btnCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent iCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(iCamera,CAMERA_REQ_CODE);
+            }
+        });
+        btnGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent iGallery = new Intent(Intent.ACTION_PICK);
+                iGallery.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(iGallery,GALLERY_REQ_CODE);
             }
         });
     }
@@ -44,7 +57,10 @@ public class MainActivity extends AppCompatActivity {
             if(requestCode==CAMERA_REQ_CODE){
                 //for camera
                 Bitmap img = (Bitmap)data.getExtras().get("data");
-                imgCamera.setImageBitmap(img);
+                imgReceived.setImageBitmap(img);
+            }
+            else if(requestCode==GALLERY_REQ_CODE){
+                imgReceived.setImageURI(data.getData());
             }
         }
     }
