@@ -86,7 +86,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button select, previous, next, capture, clear;
+    Button select, previous, next, capture, clear, submit;
     ImageSwitcher imageView;
     int PICK_IMAGE_MULTIPLE = 1;
     String imageEncoded;
@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
     private final int targetWidth = 600; // Adjust this width as needed
     private final int targetHeight = 800; // Adjust this height as needed
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
         previous = findViewById(R.id.previous);
         capture = findViewById(R.id.capture);
         clear = findViewById(R.id.clear);
+        submit =findViewById(R.id.submit);
         mArrayUri = new ArrayList<Uri>();
 
         // showing all images in imageswitcher
@@ -189,6 +191,15 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Open the new activity
+                Intent intent = new Intent(MainActivity.this, Output_Activity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override
